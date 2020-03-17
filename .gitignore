@@ -3,3 +3,4 @@ build/
 out/
 bin/
 node_modules/
+package_lock.json
