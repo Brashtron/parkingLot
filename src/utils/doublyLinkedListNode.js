@@ -1,15 +1,9 @@
 class DoublyNode {
-	constructor() {
-		this.data = null;
-		this.prev = -1;
-		this.next = -1;
-	}
-
-	updateProps(data, prev, next) {
-		this.data = data;
-		this.prev = prev;
-		this.next = next;
+	constructor(index) {
+		this.index = index;
+		this.prev = null;
+		this.next = null;
 	}
 }
 
-module.exports = { ParkingSpot };
+module.exports = DoublyNode;

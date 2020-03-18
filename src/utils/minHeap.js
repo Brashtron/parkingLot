@@ -71,7 +71,7 @@ class Minheap extends Heap {
 		this.indexMap.set(this.items[0], 0)
 		this.items.pop();
 		this.heapify(0);
-		return temp;
+		return temp.element;
 	}
 
 	heapify(i) {
@@ -126,6 +126,6 @@ class Minheap extends Heap {
 }
 
 
-module.exports = {Minheap};
+module.exports = Minheap;
 
 

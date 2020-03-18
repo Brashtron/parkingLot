@@ -1,5 +1,5 @@
 class Car {
-	constructor(registrationNumber, color) {
+	constructor(regNumber, carColor) {
 		const registrationNumber = regNumber;
 		const color = carColor;
 		this.getCarDetails = function() {
@@ -7,7 +7,6 @@ class Car {
 		}
 
 		this.getCarColor = function(){
-			console.log(this.color);
 			return color;
 		}
 
@@ -25,4 +24,4 @@ class Car {
 	}
 }
 
-module.exports = { Car };
+module.exports = Car;
