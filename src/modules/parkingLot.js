@@ -14,11 +14,9 @@ class ParkingLot {
 	}
 
 	createParkingLot(input) {
-		this.MAX_PARKING_SLOTS = parseInt(input.split(' ')[1]);;
-		if (this.MAX_PARKING_SLOTS < 1) {
-			// minimum: 1 slot
+		this.MAX_PARKING_SLOTS = parseInt(input.split(' ')[1]);
+		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Minimum one slot is required to create parking slot');
-		}
 
 		this.minHeap = new MinHeap();
 		this.colorInfoMap = new Map();
@@ -45,6 +43,9 @@ class ParkingLot {
 
 		carColor = carColor.toLowerCase();
 		carNumber = carNumber.toUpperCase();
+		if (this.carInfoMap.get(carNumber) !== undefined)
+			throw new Error('Car with same registration number is already parked');
+
 		const car = new Car(carNumber, carColor);
 		const nearestParkingSlotIndex = this.minHeap.pop();
 		this.parkingSpots[nearestParkingSlotIndex].setCar(car);
@@ -105,7 +106,7 @@ class ParkingLot {
 			const car = this.parkingSpots[i].getCar();
 			if (car) {
 				const color = car.getCarColor();
-				arr.push((i + 1) + '  ' + car.getCarRegistrationNumber() + '  ' + color.charAt(0).toUpperCase() + color.slice(1));
+				arr.push((i + 1) + '         ' + car.getCarRegistrationNumber() + '    ' + color.charAt(0).toUpperCase() + color.slice(1));
 			}
 
 		}

@@ -4,7 +4,7 @@ const fs = require('fs');
 const ParkingLot = require('../src/modules/parkingLot.js');
 
 let commands = [];
-let parkingLot = new ParkingLot();
+const parkingLot = new ParkingLot();
 
 describe('Testing file reading and command validation', () => {
 	it('reading iput file', done => {
