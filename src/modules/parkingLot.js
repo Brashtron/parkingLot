@@ -36,16 +36,17 @@ class ParkingLot {
 			throw new Error('Please, create a parking lot');
 
 		if (this.minHeap.isEmpty()) 
-			throw new Error('Sorry, car parking is full');
+			throw new Error('Sorry, parking lot is full');
 
-		const carNumber = input.split(' ')[1];
-		const carColor = input.split(' ')[2];
+		let carNumber = input.split(' ')[1];
+		let carColor = input.split(' ')[2];
 		if (!carNumber || !carColor)
 			 throw new Error('Please provide both car number and color');
 
+		carColor = carColor.toLowerCase();
+		carNumber = carNumber.toUpperCase();
 		const car = new Car(carNumber, carColor);
 		const nearestParkingSlotIndex = this.minHeap.pop();
-		console.log(nearestParkingSlotIndex);
 		this.parkingSpots[nearestParkingSlotIndex].setCar(car);
 		const coloredList = this.colorInfoMap.get(carColor);
 		if (coloredList === undefined) {
@@ -92,11 +93,10 @@ class ParkingLot {
 		this.parkingColorNodes[parkingIndex].prev = null;
 		this.parkingColorNodes[parkingIndex].next = null;
 		this.minHeap.insert(parkingIndex);
-		return parkingIndex;
+		return parkingIndex + 1;
 	}
 
 	status(input){
-		console.log('start');
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
 		
@@ -104,13 +104,11 @@ class ParkingLot {
 		for (let i = 0; i < this.MAX_PARKING_SLOTS; i++) {
 			const car = this.parkingSpots[i].getCar();
 			if (car) {
-				// console.log(car.getCarRegistrationNumber());
-				arr.push((i + 1) + '.  ' + car.getCarRegistrationNumber() + '  ' + car.getCarColor());
+				const color = car.getCarColor();
+				arr.push((i + 1) + '  ' + car.getCarRegistrationNumber() + '  ' + color.charAt(0).toUpperCase() + color.slice(1));
 			}
 
 		}
-		console.log(arr)
-		console.log('end');
 		return arr;
     }
 
@@ -118,22 +116,40 @@ class ParkingLot {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
 
-		const carColor = input.split(' ')[1].toLowerCase();
+		let carColor = input.split(' ')[1];
 		if (!carColor)
 			 throw new Error('Please provide both car color');
 
-		return this.getParkingSpotDetailsByColor(carColor, 'car')
+		carColor = carColor.toLowerCase();
+		return this.getParkingSpotDetailsByColor(carColor, 'car').join(', ');
 	}
 
 	getSlotsWithSameColor(input) {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
 
-		const carColor = input.split(' ')[1].toLowerCase();
+		let carColor = input.split(' ')[1];
 		if (!carColor)
 			 throw new Error('Please provide both car color');
 
-		return this.getParkingSpotDetailsByColor(carColor, 'slot')
+		carColor = carColor.toLowerCase();
+		return this.getParkingSpotDetailsByColor(carColor, 'slot').join(', ');
+	}
+
+	getSlotByCarNumber(input) {
+		if (this.MAX_PARKING_SLOTS < 1)
+			throw new Error('Please, create a parking lot');
+
+		let carNumber = input.split(' ')[1];
+		if (!carNumber)
+			throw new Error('Please, enter a parking number');
+
+		carNumber = carNumber.toUpperCase();
+		const parkingColorNode = this.carInfoMap.get(carNumber);
+		if (parkingColorNode === undefined)
+			return null;
+
+		return parkingColorNode.index + 1;
 	}
 
 	getParkingSpotDetailsByColor(carColor, input) {
@@ -153,10 +169,8 @@ class ParkingLot {
 
 			i = this.parkingColorNodes[i].next;
 		}
-		console.log('carColor is ', carColor);
-		console.log(arr);
 		return arr;
 	}
 }	
 
-module.export = ParkingLot;
+module.exports = ParkingLot;

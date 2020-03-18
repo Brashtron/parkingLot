@@ -1,14 +1,14 @@
 const chai = require('chai')
 const expect = chai.expect;
 const fs = require('fs');
-const Parkinglot = require('../src/modules/parkingLot.js');
+const ParkingLot = require('../src/modules/parkingLot.js');
 
 let commands = [];
-let parkingLot = new Parkinglot();
+let parkingLot = new ParkingLot();
 
 describe('Testing file reading and command validation', () => {
 	it('reading iput file', done => {
-		fs.readFile('../data/input.txt', 'utf-8', (err, data) => {
+		fs.readFile('./data/input.txt', 'utf-8', (err, data) => {
 			if (err) {
 				throw 'Error in reading input test file';
 			}
@@ -76,43 +76,49 @@ describe('testing functionality', () => {
   	});
 	
 	it('Checking status of parking lot', function (done) {
-      const result = parkingLot.getParkingStatus(commands[8]);
-      expect(result.length).to.equal(6, "retreived status of the parking lot");
-      done();
+		const result = parkingLot.status(commands[8]);
+		expect(result[0]).to.equal("1  KA-01-HH-1234  White");
+		expect(result[1]).to.equal("2  KA-01-HH-9999  White");
+		expect(result[2]).to.equal("3  KA-01-BB-0001  Black");
+		expect(result[3]).to.equal("5  KA-01-HH-2701  Blue");
+		expect(result[4]).to.equal("6  KA-01-HH-3141  Black");
+		expect(result.length).to.equal(5, "retreived status of the parking lot");
+		done();
   	});
 
 	it('Allocating Parking to User 7. Should Reallocate the nearest empty postion 4', function(done) {
-        const result = parkingLot.park(commands[9]);
-        expect(result).to.equal(4, "car 7 parked");
-        expect(result).to.not,equal(7, "car 7 parked wrongly");
-        done();
+		const result = parkingLot.park(commands[9]);
+		expect(result).to.equal(4, "car 7 parked");
+		done();
 	});
 
 	it('Allocating Parking to User 8. Should indicate Parking is full.', function (done) {
-      try {
-        const result = parkingLot.parkCar(commands[10]);
-      }
-      catch (err) {
-     	 expect(err).to.equal("parking full", "car 8 cannot be parked");
-      }
-      done();
+		try {
+			const result = parkingLot.park(commands[10]);
+		}
+		catch (err) {
+			expect(err.message).to.equal("Sorry, parking lot is full", "car 8 cannot be parked due to full parking");
+		}
+		done();
 	});
 
 	it('Registration number of cars with white color', function (done) {
-      let result = parkingLot.getCarsWithSameColor(commands[11]);
-      result = result.split(', ');
-      expect(result[0]).to.equal('KA-01-HH-1234');
-      expect(result[1]).to.equal('KA-01-HH-9999');
-      expect(result[2]).to.equal('KA-01-P-333');
-      done();
+		let result = parkingLot.getCarsWithSameColor(commands[11]);
+		result = result.split(', ');
+		expect(result.includes('KA-01-HH-1234')).to.equal(true);
+		expect(result.includes('KA-01-HH-9999')).to.equal(true);
+		expect(result.includes('KA-01-P-333')).to.equal(true);
+		expect(result.length).to.equal(3);
+		done();
   	});
 
 	it('Slot numbers for cars with white color', function (done) {
-		let result = parkingLot.getSlotsWithSameColorCar(commands[12]);
-		result = result.split(',').map(Number);
-		expect(result[0]).to.equal(1);
-    	expect(result[1]).to.equal(2);
-    	expect(result[2]).to.equal(4);
+		let result = parkingLot.getSlotsWithSameColor(commands[12]);
+		result = result.split(', ').map(Number);
+		expect(result.includes(1)).to.equal(true);
+		expect(result.includes(2)).to.equal(true);
+		expect(result.includes(4)).to.equal(true);
+		expect(result.length).to.equal(3);
 		done();
 	});
 
@@ -124,7 +130,7 @@ describe('testing functionality', () => {
 
 	it('Slot number for registration number MH-04-AY-1111', function (done) {
 		const result = parkingLot.getSlotByCarNumber(commands[14]);
-		expect(result[1]).to.equal('Not Found');
+		expect(result).to.equal('Not Found');
 		done();
 	});
 });
