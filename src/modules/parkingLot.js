@@ -24,8 +24,8 @@ class ParkingLot {
 	 */
 
 	createParkingLot (input) {
-		this.MAX_PARKING_SLOTS = parseInt(input.split(' ')[1]);
-		if (this.MAX_PARKING_SLOTS < 1)
+		this.MAX_PARKING_SLOTS = parseInt(input.split(/\s+/)[1]);
+		if (isNaN(this.MAX_PARKING_SLOTS) === true || this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Minimum one slot is required to create parking slot');
 
 		this.minHeap = new MinHeap();
@@ -42,7 +42,7 @@ class ParkingLot {
 	/**
 	 * @param {String} receives user's input via terminal
 	 * @description allocates nearest slot number to incoming car.
-	 * It throws and error if parking lot is not created.
+	 * It throws and error if parking lot is not already created.
 	 * It throws an error if parking lot is full.
 	 * It throws and error if the car is already parked.
 	 * It also throws an error if only one field (either registration number or color) is provided.
@@ -55,9 +55,9 @@ class ParkingLot {
 		if (this.minHeap.isEmpty())
 			throw new Error('Sorry, parking lot is full');
 
-		let carNumber = input.split(' ')[1];
-		let carColor = input.split(' ')[2];
-		if (!carNumber || !carColor)
+		let carNumber = input.split(/\s+/)[1];
+		let carColor = input.split(/\s+/)[2];
+		if (carNumber === undefined || carColor === undefined)
 			 throw new Error('Please provide both car number and color');
 
 		carColor = carColor.toLowerCase();
@@ -86,8 +86,8 @@ class ParkingLot {
 
 	/**
 	 * @param {String} receives user's input via terminal
-	 * @description makes slot free for given slot number.
-	 * It throws and error if parking lot is not created.
+	 * @description makes parking slot free for given slot number.
+	 * It throws and error if parking lot is not already created.
 	 * It throws an error if parking lot is empty or
 	 * slot number is not found
 	 * It throws an error if slot number is invalid
@@ -97,37 +97,32 @@ class ParkingLot {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
 
-		const parkingIndex = parseInt(input.split(' ')[1] - 1);
-		if (parkingIndex < 0 || parkingIndex >= this.MAX_PARKING_SLOTS)
+		const parkingIndex = parseInt(input.split(/\s+/)[1] - 1);
+		if (isNaN(parkingIndex) === true || parkingIndex < 0 || parkingIndex >= this.MAX_PARKING_SLOTS)
 			throw new Error('Please, enter a valid slot number');
 
-		const car = this.parkingSpots[parkingIndex].getCar();
-		if (!car)
-			throw new Error('Sorry, parking lot is empty');
-
-		const prevSameColorIndex = this.parkingColorNodes[parkingIndex].prev;
-		const nextSameColorIndex = this.parkingColorNodes[parkingIndex].next;
-		if (!prevSameColorIndex) {
-			if (!nextSameColorIndex) {
-				this.colorInfoMap.delete(car.getCarColor());
-			} else {
-				this.colorInfoMap.set(car.getCarColor(), this.parkingColorNodes[nextSameColorIndex]);
-			}
-
-		} else {
-			this.parkingColorNodes[prevSameColorIndex].next = nextSameColorIndex;
-			if (nextSameColorIndex) {
-				this.parkingColorNodes[nextSameColorIndex].prev = prevSameColorIndex;
-			}
-		}
-
-		this.carInfoMap.delete(car.getCarRegistrationNumber());
-		this.parkingSpots[parkingIndex].setCar(null);
-		this.parkingColorNodes[parkingIndex].prev = null;
-		this.parkingColorNodes[parkingIndex].next = null;
-		this.minHeap.insert(parkingIndex, parkingIndex);
-		return parkingIndex + 1;
+		return this.vacateParkingSlot(parkingIndex);
 	}
+
+	/**
+	 * @param {String} receives user's input via terminal
+	 * @description makes slot free for given car number.
+	 * It throws and error if parking lot is not already created.
+	 * It throws an error if parking lot is empty or
+	 * slot number to the corresponding car number is not found
+	 */
+
+	leaveByCarNumber (input) {
+		if (this.MAX_PARKING_SLOTS < 1)
+			throw new Error('Please, create a parking lot');
+
+		const parkingIndex = this.getSlotByCarNumber(input);
+		if (parkingIndex === null)
+			throw new Error('Sorry, this car is not parked here');
+
+		return this.vacateParkingSlot(parkingIndex - 1);
+	}
+
 
 	/**
 	 * @param {String} receives user's input via terminal
@@ -162,8 +157,8 @@ class ParkingLot {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
 
-		let carColor = input.split(' ')[1];
-		if (!carColor)
+		let carColor = input.split(/\s+/)[1];
+		if (carColor === undefined)
 			 throw new Error('Please provide car color');
 
 		carColor = carColor.toLowerCase();
@@ -181,8 +176,8 @@ class ParkingLot {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
 
-		let carColor = input.split(' ')[1];
-		if (!carColor)
+		let carColor = input.split(/\s+/)[1];
+		if (carColor === undefined)
 			 throw new Error('Please provide both car color');
 
 		carColor = carColor.toLowerCase();
@@ -199,9 +194,9 @@ class ParkingLot {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
 
-		let carNumber = input.split(' ')[1];
-		if (!carNumber)
-			throw new Error('Please, enter a parking number');
+		let carNumber = input.split(/\s+/)[1];
+		if (carNumber === undefined)
+			throw new Error('Please, enter a valid car number');
 
 		carNumber = carNumber.toUpperCase();
 		const parkingColorNode = this.carInfoMap.get(carNumber);
@@ -220,7 +215,7 @@ class ParkingLot {
 	getParkingSpotDetailsByColor (carColor, input) {
 		const coloredListHead = this.colorInfoMap.get(carColor);
 		if (coloredListHead === undefined)
-			return null;
+			throw new Error('Sorry, there are no cars of ' + carColor + ' color');
 
 		let i = coloredListHead.index;
 		const arr = [];
@@ -235,6 +230,55 @@ class ParkingLot {
 			i = this.parkingColorNodes[i].next;
 		}
 		return arr;
+	}
+
+	/**
+	* @param {Number} receives parking index which needs to be vacated
+	* @description vacates the parking index
+	*/
+
+	vacateParkingSlot (parkingIndex) {
+		const car = this.parkingSpots[parkingIndex].getCar();
+		if (!car)
+			throw new Error('Sorry, parking slot is empty');
+
+		const prevSameColorIndex = this.parkingColorNodes[parkingIndex].prev;
+		const nextSameColorIndex = this.parkingColorNodes[parkingIndex].next;
+		if (prevSameColorIndex === null) {
+			if (nextSameColorIndex === null) {
+				this.colorInfoMap.delete(car.getCarColor());
+			} else {
+				this.colorInfoMap.set(car.getCarColor(), this.parkingColorNodes[nextSameColorIndex]);
+			}
+
+		} else {
+			this.parkingColorNodes[prevSameColorIndex].next = nextSameColorIndex;
+			if (nextSameColorIndex) {
+				this.parkingColorNodes[nextSameColorIndex].prev = prevSameColorIndex;
+			}
+		}
+
+		this.carInfoMap.delete(car.getCarRegistrationNumber());
+		this.parkingSpots[parkingIndex].setCar(null);
+		this.parkingColorNodes[parkingIndex].prev = null;
+		this.parkingColorNodes[parkingIndex].next = null;
+		this.minHeap.insert(parkingIndex, parkingIndex);
+		return parkingIndex + 1;
+	}
+
+	getAvailableSlots (input) {
+		if (this.MAX_PARKING_SLOTS < 1)
+			throw new Error('Please, create a parking lot');
+
+		const arr = this.minHeap.getHeapElements();
+		if (!arr || arr.length < 1)
+			return null;
+
+		arr.sort();
+		for (let i = 0; i < arr.length; i++)
+			arr[i] = arr[i] + 1;
+
+		return arr.join(', ');
 	}
 }
 

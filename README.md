@@ -57,16 +57,20 @@ In the **scripts** segment below it is explained how these binaries are made.
 
 6) **slot_numbers_for_cars_with_colour < COLOR >**: slot_numbers_for_cars_with_colour White will display slot numbers of the cars of white color 
 
-6) **slot_number_for_registration_number < REGISTRATION NUMBER >**: slot_number_for_registration_number MH-04-AY-1111 will display the slot number for the car with registration number MH-04-AY-1111.
+7) **slot_number_for_registration_number < REGISTRATION NUMBER >**: slot_number_for_registration_number MH-04-AY-1111 will display the slot number for the car with registration number MH-04-AY-1111.
 
-7) **exit**: exit will quit the application.
+8) **available_slot_numbers**: available slot numbers in the parking lot
+
+9) **leave_by_car_number <REGISTRATION NUMBER>** leave_by_car_number MH-04-AY-1111 will leave the spot occupied by this car.
+
+10) **exit**: exit will quit the application.
 
 ## Time Complexities
 1) **create_parking_lot** -> O(n)
 
 2) **park** -> O(log(n)) Mainly due to heap pop operation
 
-3) **leave** -> O(log(n)) Mainly due to heap insert operation
+3) **leave** -> O(log(k)) where k are the available slots. Mainly due to heap insert operation
 
 4) **status** -> O(n) Mainly due to iterating the parking spots
 
@@ -75,6 +79,11 @@ In the **scripts** segment below it is explained how these binaries are made.
 6) **slot_numbers_for_cars_with_colour** ->  O(k) where k is the number of cars of the corresponding color
 
 7) **slot_number_for_registration_number** -> O(1)
+
+8) **available_slot_numbers** -> O(klogk) where k are the available slots
+
+9) **leave_by_car_number** -> O(log(k))  where k are the available slots. Mainly due to heap insert operation
+
 
 ## Scripts
 * **buildBinary.js** 

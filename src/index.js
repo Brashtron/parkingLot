@@ -60,7 +60,7 @@ function runInteractiveConsole () {
 
 function processUserCommands (input) {
 	input = input.trim();
-	const userCommand = input.split(' ')[0];
+	const userCommand = input.split(/\s+/)[0].toLowerCase();
 	switch (userCommand) {
 		case 'create_parking_lot':
 			try {
@@ -90,15 +90,24 @@ function processUserCommands (input) {
 				console.log(errorColor(err.message));
 			}
 			break;
+		case 'leave_by_car_number':
+			try {
+				const parkingSlotNumber = parkingLot.leaveByCarNumber(input);
+				console.log('Slot number ' + outputColor(parkingSlotNumber) + ' is free');
+			}
+			catch (err) {
+				console.log(errorColor(err.message));
+			}
+			break;
 		case 'status':
 			try {
 				const parkingLotStatus = parkingLot.status();
-				if (parkingLotStatus.length > 1) {
+				if (parkingLotStatus.length > 0) {
 					console.log('Slot No.  Registration No. Color');
 					console.log(outputColor(parkingLotStatus.join('\n')));
 				}
 				else {
-					console.log(clc.yellow('Sorry, parking lot is empty'));
+					console.log(errorColor('Sorry, parking lot is empty'));
 				}
 			}
 			catch (err) {
@@ -112,7 +121,7 @@ function processUserCommands (input) {
 					console.log(outputColor(registrationNumbers));
 				}
 				else {
-					console.log(clc.yellow('Sorry, Car with given color is not found'));
+					console.log(errorColor('Sorry, Car with given color is not found'));
 				}
 			}
 			catch (err) {
@@ -126,7 +135,7 @@ function processUserCommands (input) {
 					console.log(outputColor(parkingSlotNumbers));
 				}
 				else {
-					console.log(clc.yellow('Sorry, Car with given color is not found'));
+					console.log(errorColor('Sorry, Car with given color is not found'));
 				}
 			}
 			catch (err) {
@@ -140,11 +149,25 @@ function processUserCommands (input) {
 					console.log(outputColor(parkingSlotNumber));
 				}
 				else {
-					console.log(clc.yellow('Sorry, Car with given registration number is not found'));
+					console.log(errorColor('Sorry, Car with given registration number is not found'));
 				}
 			}
 			catch (err) {
-				console.log(outputColor(err.message));
+				console.log(errorColor(err.message));
+			}
+			break;
+		case 'available_slot_numbers':
+			try {
+				const availableSlotNumbers = parkingLot.getAvailableSlots(input);
+				if (availableSlotNumbers && availableSlotNumbers.length > 0) {
+					console.log(outputColor(availableSlotNumbers));
+				}
+				else {
+					console.log(errorColor('Sorry, No parking spots are available'));
+				}
+			}
+			catch (err) {
+				console.log(errorColor(err.message));
 			}
 			break;
 		case 'exit':
@@ -152,7 +175,7 @@ function processUserCommands (input) {
 			break;
 
 		default:
-			console.log(input, 'is an invalid command');
+			console.log(input, ' is an invalid command');
 			break;
 	}
 	runInteractiveConsole();

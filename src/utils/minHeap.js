@@ -43,6 +43,9 @@ class Heap {
 	isEmpty () {
 		throw new Error('Method \'isEmpty()\' must be implemented.');
 	}
+	getHeapElements () {
+		throw new Error('Method \'getHeapElements()\' must be implemented.');
+	}
 
 }
 
@@ -143,10 +146,15 @@ class Minheap extends Heap {
 		return false;
 	}
 
-	print () {
+	/**
+ 	* @description return heap's elements
+	*/
+	getHeapElements () {
+		const arr = [];
 		for (let i = 0; i < this.items.length; i++)
-		{	console.log(this.items[i]);
-			console.log(this.indexMap.get(this.items[i].element)); }
+			arr.push(this.items[i].element);
+
+		return arr;
 	}
 
 }
