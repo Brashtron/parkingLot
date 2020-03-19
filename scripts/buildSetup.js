@@ -19,6 +19,6 @@ shelljs.exec('pkg ./scripts/setup.js -t host --out-path bin', (code, stderr, std
         console.log('Error while packaging setup');
         return 0;
     }
-	
-	console.log('Parking Lot setup is packaged successfully for ' + os + 'host in "bin/" folder\n');	
+
+	console.log('Parking Lot setup is packaged successfully for ' + os + 'host in "bin/" folder\n');
 });

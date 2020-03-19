@@ -95,7 +95,7 @@ class ParkingLot {
 
 	leave (input) {
 		if (this.MAX_PARKING_SLOTS < 1)
-			throw new Error('Please, create a parking lot'); 
+			throw new Error('Please, create a parking lot');
 
 		const parkingIndex = parseInt(input.split(' ')[1] - 1);
 		if (parkingIndex < 0 || parkingIndex >= this.MAX_PARKING_SLOTS)

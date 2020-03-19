@@ -5,6 +5,7 @@
  */
 
 const sh = require('shelljs');
+
 /**
  * @type {Array}
  * @description The list of files to include into documentation
@@ -12,7 +13,7 @@ const sh = require('shelljs');
 const fileList = [
     'src/*.js',
     'src/modules/*.js',
-    'src/utils/*.js'	
+    'src/utils/*.js'
 ];
 
 const command = 'jsdoc ' + fileList.join(' '); // combining all the files

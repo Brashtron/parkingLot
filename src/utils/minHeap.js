@@ -75,7 +75,7 @@ class Minheap extends Heap {
 	}
 
 	/**
- 	* @description pops the mininmum weight element from heap 
+ 	* @description pops the mininmum weight element from heap
  		if heap is empty it returns null
 	*/
 
