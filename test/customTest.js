@@ -2,9 +2,26 @@ const chai = require('chai')
 const expect = chai.expect;
 const fs = require('fs');
 const ParkingLot = require('../src/modules/parkingLot.js');
+let os = process.platform;
+
+if (os === 'darwin') {
+	os = 'MacOS';
+}
+else if (os === 'win32' || os === 'win64') {
+	os = 'Windows';
+}
+else if (os === 'linux') {
+	os = 'Linux';
+}
 
 let commands = [];
 const parkingLot = new ParkingLot();
+
+let splitter = '\n';
+
+if (os === 'Windows') {
+	splitter = '\r\n';
+}
 
 describe('Testing file reading and command validation', () => {
 	it('reading iput file', done => {
@@ -13,7 +30,7 @@ describe('Testing file reading and command validation', () => {
 				throw 'Error in reading input test file';
 			}
 
-			commands = JSON.parse(JSON.stringify(data)).split('\n');
+			commands = JSON.parse(JSON.stringify(data)).split(splitter);
 			done();
 		});
 	});

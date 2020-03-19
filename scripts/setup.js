@@ -33,6 +33,6 @@ async.series([
         console.log('Tests failed!');
     }
     else {
-        console.log('All the tests has passed successfully');
+        console.log('Unit test cases executed');
     }
 });
