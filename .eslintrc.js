@@ -19,7 +19,7 @@ module.exports = {
     "rules": {
         "no-console": "off",
         "valid-typeof": "error",
-        "require-jsdoc": "warn",
+        "require-jsdoc": "off",
         "no-constant-condition": "error",
         "no-debugger": "error",
         "no-dupe-args": "error",
