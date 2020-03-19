@@ -17,23 +17,23 @@
 ## Pre-requisites
 The project is written using **Nodejs**. Make sure node is installed on your computer.Also **NPM(node package manager)** is also needed for installing dependencies. You can install both from https://nodejs.org/en/download/
 
-## Run the Project
+## Setup and Usage
 This project has two modes :-
 1) **Interactive**
 2) **File**
 
 * **Interactive Mode**
 	Open terminal and navigate to the project folder and run these commands :-
-	* **npm install**
-	* **npm start**
+	* **npm install** -> installs project dependencies
+	* **npm start** -> runs the project
 
 * **File Mode**
 	Open terminal and navigate to the project folder and run the command :-
-	
-	**node src/index.js  <path_to_file.txt>**
-	The sample format of the input file is similar to the  ./data/input.txt file. 
+	* **npm install** -> installs project dependencies
+	* **node src/index.js  <path_to_file.txt>**
+	The format of the input file is similar to the  sample format ./data/input.txt file. 
 
-You can also run the **console application**. For that you have to build two binary files. A pre-reuisite to install these binary is  node and npm. The steps to create these binaries are -:
+You can also run the **console application** directly. For that you have to build two binary files. A pre-requisite to install these binary is **node** and **npm** as mentioned earlier. The steps to create these binaries are -:
 * **npm run setup** -> This will create a setup binary in the bin folder.
 * **npm run build** -> This will create a parking_lot binary in the bin folder.
 
@@ -64,6 +64,15 @@ In the **scripts** segment below it is explained how these binaries are made.
 9) **leave_by_car_number <REGISTRATION NUMBER>** leave_by_car_number MH-04-AY-1111 will leave the spot occupied by this car.
 
 10) **exit**: exit will quit the application.
+
+## Logic of Parking Lot Class
+* The parking lot class has a parkingSpot class object array of the maximum slot size which is taken as input while creating parking lot. 
+
+* It also has another array parkingColorNode of doublyLinkedListNode class object. This class instance represents a standalone doubly linked list node. In this array each node corresponds to a parking spot position given by its index in this array. 
+
+* It also has two maps, colorInfoMap and carInfoMap. ColorInfoMap stores cars of the same color in a doublyLinkedList where each node is parkingColorNode element corresponding to a parking slot position. CarInfoMap stores those individual nodes with key as car number. This second map provides ease in removing these nodes from doublyLinkedList and also provides parking slot info of a car in O(1).
+
+* It also uses a minHeap to store the available slot indexes. Every time a car leaves a slot, that slot is entered in the minHeap and everytime a car is parked the smallest slot is popped.
 
 ## Time Complexities
 1) **create_parking_lot** -> O(n)
