@@ -2,7 +2,7 @@
 const shelljs = require('shelljs');
 const fs = require('fs');
 let os = process.platform;
-let source = './bin.index';
+let source = './bin/index';
 let destination = './bin/parking_lot';
 
 if (os === 'darwin') {
