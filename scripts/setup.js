@@ -4,13 +4,13 @@
  * the test fails if any of the above test suites fail.
  *
  */
-const sh = require('shelljs');
+const exec = require('child_process').exec;
 const async = require('async');
 
 async.series([
     function installDependencies (next) {
-        console.log('installing dependecies');
-        sh.exec('npm install', (err, stdout, stderr) => {
+        console.log('Installing Dependencies');
+        exec('npm install', (err, stdout, stderr) => {
             if (err) {
                 console.log('Error installing npm dependecies');
                 return next(err);
@@ -20,11 +20,12 @@ async.series([
     },
     function runUnitTests (next) {
         console.log('Running unit tests');
-        sh.exec('npm run test', (err, stdout, stderr) => {
+        exec('npm run test', (err, stdout, stderr) => {
             if (err) {
                 console.log('Error running unit tests');
                 return next(err);
             }
+            console.log(stdout);
             return next(null);
         });
     }

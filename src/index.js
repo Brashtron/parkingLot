@@ -110,7 +110,6 @@ function processUserCommands (input) {
 				const registrationNumbers = parkingLot.getCarsWithSameColor(input);
 				if (registrationNumbers && registrationNumbers.length > 0) {
 					console.log(outputColor(registrationNumbers));
-					console.log('hey');
 				}
 				else {
 					console.log(clc.yellow('Sorry, Car with given color is not found'));

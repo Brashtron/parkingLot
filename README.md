@@ -31,9 +31,18 @@ This project has two modes :-
 	Open terminal and navigate to the project folder and run the command :-
 	
 	**node src/index.js  <path_to_file.txt>**
-	The sample format of the input file is similar to the  ./data/input.txt file.
+	The sample format of the input file is similar to the  ./data/input.txt file. 
 
-You can also run the **console application** by opening ./bin/parking_lot.
+You can also run the **console application**. For that you have to build two binary files. A pre-reuisite to install these binary is  node and npm. The steps to create these binaries are -:
+* **npm run setup** -> This will create a setup binary in the bin folder.
+* **npm run build** -> This will create a parking_lot binary in the bin folder.
+
+Now the steps to run the console application are as follows :-	
+1) **./bin/setup** -> This setup binary will install all dependencies and will then run the unit test cases.
+	
+2) **./bin/parking_lot** -> This is the main project binary named parking_lot which will open the console application. It can also run with an input file as an argument. For eg. **./bin/parking_lot ./data/input.txt**
+
+In the **scripts** segment below it is explained how these binaries are made.
 
 ## User Commands
 1) **create_parking_lot < PARKING LOT SIZE >**: create_parking_lot 6
