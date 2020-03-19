@@ -165,7 +165,7 @@ module.exports = {
         "radix": "off",
         "strict": "off",
         "init-declarations": "off",
-        "no-undefined": "warn",
+        "no-undefined": "off",
         "global-require": "off",
         "no-mixed-requires": "off",
         "no-path-concat": "off",
