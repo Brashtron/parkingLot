@@ -77,11 +77,11 @@ describe('testing functionality', () => {
 	
 	it('Checking status of parking lot', function (done) {
 		const result = parkingLot.status(commands[8]);
-		expect(result[0]).to.equal("1  KA-01-HH-1234  White");
-		expect(result[1]).to.equal("2  KA-01-HH-9999  White");
-		expect(result[2]).to.equal("3  KA-01-BB-0001  Black");
-		expect(result[3]).to.equal("5  KA-01-HH-2701  Blue");
-		expect(result[4]).to.equal("6  KA-01-HH-3141  Black");
+		expect(result[0]).to.equal("1         KA-01-HH-1234    White");
+		expect(result[1]).to.equal("2         KA-01-HH-9999    White");
+		expect(result[2]).to.equal("3         KA-01-BB-0001    Black");
+		expect(result[3]).to.equal("5         KA-01-HH-2701    Blue");
+		expect(result[4]).to.equal("6         KA-01-HH-3141    Black");
 		expect(result.length).to.equal(5, "retreived status of the parking lot");
 		done();
   	});
@@ -130,7 +130,7 @@ describe('testing functionality', () => {
 
 	it('Slot number for registration number MH-04-AY-1111', function (done) {
 		const result = parkingLot.getSlotByCarNumber(commands[14]);
-		expect(result).to.equal('Not Found');
+		expect(result).to.equal(null);
 		done();
 	});
 });

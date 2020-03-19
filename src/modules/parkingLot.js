@@ -48,6 +48,7 @@ class ParkingLot {
 
 		const car = new Car(carNumber, carColor);
 		const nearestParkingSlotIndex = this.minHeap.pop();
+		
 		this.parkingSpots[nearestParkingSlotIndex].setCar(car);
 		const coloredList = this.colorInfoMap.get(carColor);
 		if (coloredList === undefined) {
@@ -93,7 +94,7 @@ class ParkingLot {
 		this.parkingSpots[parkingIndex].setCar(null);
 		this.parkingColorNodes[parkingIndex].prev = null;
 		this.parkingColorNodes[parkingIndex].next = null;
-		this.minHeap.insert(parkingIndex);
+		this.minHeap.insert(parkingIndex, parkingIndex);
 		return parkingIndex + 1;
 	}
 
