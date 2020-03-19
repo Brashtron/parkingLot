@@ -32,6 +32,11 @@ if (commandLineArguments[commandLineArguments.length - 1].endsWith('.txt')) {
 	runInteractiveConsole();
 }
 
+/**
+ * @description invoked when users interact via console
+ * processes one command at a time
+ */
+
 function runInteractiveConsole () {
 	const prompts = readLine.createInterface({
 		input: process.stdin,
@@ -45,6 +50,13 @@ function runInteractiveConsole () {
 	}
 
 }
+
+/**
+ *
+ * @param {String} user input entered via console
+ * @description driver function for different commands for entered by users
+ * functions of parkinglot are mapped with the commands and invoked accordingly
+ */
 
 function processUserCommands (input) {
 	input = input.trim();

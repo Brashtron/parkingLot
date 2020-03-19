@@ -3,6 +3,10 @@ const Car = require('../modules/car');
 const ParkingSpot = require('../modules/parkingSpot');
 const MinHeap = require('../utils/minHeap');
 
+/**
+ * @description a class for representing a parking lot
+ */
+
 class ParkingLot {
 	constructor () {
 		this.MAX_PARKING_SLOTS = 0;
@@ -12,6 +16,12 @@ class ParkingLot {
 		this.colorInfoMap = null;
 		this.carInfoMap = null;
 	}
+
+	/**
+	 * @param {String} receives user's input via terminal
+	 * @description creates a parking lot with given maximum slot numbers.
+	 * It throws an error if zero or negative input is provided
+	 */
 
 	createParkingLot (input) {
 		this.MAX_PARKING_SLOTS = parseInt(input.split(' ')[1]);
@@ -28,6 +38,15 @@ class ParkingLot {
 		}
 		return this.MAX_PARKING_SLOTS;
 	}
+
+	/**
+	 * @param {String} receives user's input via terminal
+	 * @description allocates nearest slot number to incoming car.
+	 * It throws and error if parking lot is not created.
+	 * It throws an error if parking lot is full.
+	 * It throws and error if the car is already parked.
+	 * It also throws an error if only one field (either registration number or color) is provided.
+	 */
 
 	park (input) {
 		if (this.MAX_PARKING_SLOTS < 1)
@@ -65,12 +84,24 @@ class ParkingLot {
 		return nearestParkingSlotIndex + 1;
 	}
 
+	/**
+	 * @param {String} receives user's input via terminal
+	 * @description makes slot free for given slot number.
+	 * It throws and error if parking lot is not created.
+	 * It throws an error if parking lot is empty or
+	 * slot number is not found
+	 * It throws an error if slot number is invalid
+	 */
+
 	leave (input) {
 		if (this.MAX_PARKING_SLOTS < 1)
-			throw new Error('Please, create a parking lot');
+			throw new Error('Please, create a parking lot'); 
 
 		const parkingIndex = parseInt(input.split(' ')[1] - 1);
-		const car = this.parkingSpots[parkingIndex].car;
+		if (parkingIndex < 0 || parkingIndex >= this.MAX_PARKING_SLOTS)
+			throw new Error('Please, enter a valid slot number');
+
+		const car = this.parkingSpots[parkingIndex].getCar();
 		if (!car)
 			throw new Error('Sorry, parking lot is empty');
 
@@ -98,6 +129,12 @@ class ParkingLot {
 		return parkingIndex + 1;
 	}
 
+	/**
+	 * @param {String} receives user's input via terminal
+	 * @description Returns an array containing parking details i.e. slot no, registration number and color
+	 * It throws and error if parking lot is not created.
+	 */
+
 	status (input) {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
@@ -114,17 +151,31 @@ class ParkingLot {
 		return arr;
     }
 
+	/**
+	* @param {String} receives user's input via terminal
+	* @description returns a comma separated string of registration numbers for cars of given color.
+	* It throws an error if parking lot is not created.
+	* It returns null if cars of given color is not found.
+	*/
+
 	getCarsWithSameColor (input) {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
 
 		let carColor = input.split(' ')[1];
 		if (!carColor)
-			 throw new Error('Please provide both car color');
+			 throw new Error('Please provide car color');
 
 		carColor = carColor.toLowerCase();
 		return this.getParkingSpotDetailsByColor(carColor, 'car').join(', ');
 	}
+
+	/**
+	* @param {String} receives user's input via terminal
+	* @description returns a comma separated string of slot numbers for cars of given color.
+	* It throws an error if parking lot is not created.
+	* It returns null if cars of given color is not found.
+	*/
 
 	getSlotsWithSameColor (input) {
 		if (this.MAX_PARKING_SLOTS < 1)
@@ -137,6 +188,12 @@ class ParkingLot {
 		carColor = carColor.toLowerCase();
 		return this.getParkingSpotDetailsByColor(carColor, 'slot').join(', ');
 	}
+
+	/**
+	* @param {String} receives user's input via terminal
+	* @description returns slot number for given car number.
+	* It returns null if car is not found.
+	*/
 
 	getSlotByCarNumber (input) {
 		if (this.MAX_PARKING_SLOTS < 1)
@@ -154,17 +211,23 @@ class ParkingLot {
 		return parkingColorNode.index + 1;
 	}
 
+	/**
+	* @param {String} receives carColor and input which specifies the type of output needed i.e. slot Numbers or car Numbers
+	* @description returns a comma separated string of slot numbers or car numbers of given color.
+	* It returns null if cars of given color is not found.
+	*/
+
 	getParkingSpotDetailsByColor (carColor, input) {
 		const coloredListHead = this.colorInfoMap.get(carColor);
 		if (coloredListHead === undefined)
-			throw new Error('Not found');
+			return null;
 
 		let i = coloredListHead.index;
 		const arr = [];
 		while (i !== null) {
 			if (input === 'car') {
 
-				arr.push(this.parkingSpots[i].car.getCarRegistrationNumber());
+				arr.push(this.parkingSpots[i].getCar().getCarRegistrationNumber());
 			} else {
 				arr.push(i + 1);
 			}

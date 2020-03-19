@@ -11,7 +11,8 @@
     "build": "node ./scripts/buildBinary.js",
     "setup": "node ./scripts/buildSetup.js",
     "linter": "node ./scripts/lintTest.js",
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+    "createDocumentation": "node ./scripts/createDocumentation.js"
   },
   "author": "Ashutosh Singh <ashutosh0985@gmail.com>",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "cli-color": "^2.0.0",
     "eslint": "^6.8.0",
     "fs": "0.0.1-security",
+    "jsdoc": "^3.6.3",
     "mocha": "^7.1.0",
     "pkg": "^4.4.4",
     "shelljs": "^0.8.3"

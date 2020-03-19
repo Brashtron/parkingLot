@@ -1,3 +1,6 @@
+/**
+ * @description a class for representing a node in heap
+ */
 class Qelement {
 	constructor (element, weight) {
 		this.element = element;
@@ -5,7 +8,9 @@ class Qelement {
 	}
 }
 
-// make an abstract class of heap and then extend the class to make minheap and maxheap
+/**
+ * @description an abstract class of heap and then extend the class to make minheap and maxheap
+ */
 
 class Heap {
 	constructor () {
@@ -41,12 +46,20 @@ class Heap {
 
 }
 
+/**
+ * @description a class for representing a minheap made by extending theheap abstract class
+ */
+
 class Minheap extends Heap {
 	constructor () {
 		super();
 		this.items = [];
 		this.indexMap = new Map();
 	}
+
+	/**
+ 	* @description inserts an element with weight in the heap
+	*/
 
 	insert (element, weight) {
 		const qElem = new Qelement(element, weight);
@@ -61,6 +74,11 @@ class Minheap extends Heap {
 		}
 	}
 
+	/**
+ 	* @description pops the mininmum weight element from heap 
+ 		if heap is empty it returns null
+	*/
+
 	pop () {
 		if (this.isEmpty()) {
 			return null;
@@ -73,6 +91,10 @@ class Minheap extends Heap {
 		this.heapify(0);
 		return temp.element;
 	}
+
+	/**
+ 	* @description heapifies from index i
+	*/
 
 	heapify (i) {
 
@@ -110,6 +132,10 @@ class Minheap extends Heap {
 		}
 		return this.items[0];
 	}
+
+	/**
+ 	* @description checks if heap is empty or not
+	*/
 
 	isEmpty () {
 		if (this.items.length === 0)

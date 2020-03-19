@@ -1,3 +1,8 @@
+/**
+ * @description car class with two fields: registrationNumber and color which are both implemented as private variables
+ * @assumption the registration number for every car will be unique
+ */
+
 class Car {
 	constructor (regNumber, carColor) {
 		const registrationNumber = regNumber;
@@ -13,14 +18,6 @@ class Car {
 		this.getCarRegistrationNumber = function () {
 			return registrationNumber;
 		};
-	}
-
-	isCarEqual (car) {
-		if (car && this.getCarRegistrationNumber() === car.getCarRegistrationNumber()) {
-			return true;
-		}
-
-		return false;
 	}
 }
 
