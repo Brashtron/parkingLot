@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const shelljs = require('shelljs');
-const fs = require('fs');
 let os = process.platform;
 
 if (os === 'darwin') {

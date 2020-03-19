@@ -34,6 +34,7 @@ This project has two modes :-
 	The format of the input file is similar to the  sample format ./data/input.txt file. 
 
 You can also run the **console application** directly. For that you have to build two binary files. A pre-requisite to install these binary is **node** and **npm** as mentioned earlier. The steps to create these binaries are -:
+* **npm install** -> This will install project dependencies
 * **npm run setup** -> This will create a setup binary in the bin folder.
 * **npm run build** -> This will create a parking_lot binary in the bin folder.
 
