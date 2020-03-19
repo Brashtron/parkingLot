@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "node ./scripts/unitTest.js",
-    "build": "node ./scripts/build.js",
+    "build": "node ./scripts/buildBinary.js",
+    "setup": "node ./scripts/buildSetup.js",
     "linter": "node ./scripts/lintTest.js",
     "start": "node ./src/index.js"
   },
@@ -22,5 +23,8 @@
     "mocha": "^7.1.0",
     "pkg": "^4.4.4",
     "shelljs": "^0.8.3"
+  },
+  "dependencies": {
+    "async": "^3.2.0"
   }
 }
