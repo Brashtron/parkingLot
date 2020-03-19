@@ -2,7 +2,7 @@
 const fs = require('fs');
 const readLine = require('readline');
 const ParkingLot = require('../src/modules/parkingLot.js');
-const clc = require("cli-color");
+const clc = require('cli-color');
 const errorColor = clc.red;
 const outputColor = clc.green;
 
@@ -33,25 +33,22 @@ if (commandLineArguments[commandLineArguments.length - 1].endsWith('.txt')) {
 }
 
 function runInteractiveConsole () {
-
-	var prompts = readLine.createInterface({
+	const prompts = readLine.createInterface({
 		input: process.stdin,
 		output: process.stdout,
 		terminal: false
 	});
-
-	// option for user to enter commands
 	if (interactiveMode) {
 		prompts.question('Input: ', function (data) {
 			processUserCommands(data);
 		});
 	}
+
 }
 
 function processUserCommands (input) {
 	input = input.trim();
 	const userCommand = input.split(' ')[0];
-
 	switch (userCommand) {
 		case 'create_parking_lot':
 			try {
@@ -139,10 +136,10 @@ function processUserCommands (input) {
 				console.log(outputColor(err.message));
 			}
 			break;
-	  
 		case 'exit':
 			process.exit(0);
 			break;
+
 		default:
 			console.log(input, 'is an invalid command');
 			break;

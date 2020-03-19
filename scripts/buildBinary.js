@@ -27,4 +27,3 @@ shelljs.exec('pkg ./src/index.js -t host --out-path bin', (code, stderr, stdout)
 		}
 	});
 });
-	

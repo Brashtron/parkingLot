@@ -4,7 +4,7 @@ const ParkingSpot = require('../modules/parkingSpot');
 const MinHeap = require('../utils/minHeap');
 
 class ParkingLot {
-	constructor() {
+	constructor () {
 		this.MAX_PARKING_SLOTS = 0;
 		this.parkingSpots = [];
 		this.parkingColorNodes = [];
@@ -13,7 +13,7 @@ class ParkingLot {
 		this.carInfoMap = null;
 	}
 
-	createParkingLot(input) {
+	createParkingLot (input) {
 		this.MAX_PARKING_SLOTS = parseInt(input.split(' ')[1]);
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Minimum one slot is required to create parking slot');
@@ -29,11 +29,11 @@ class ParkingLot {
 		return this.MAX_PARKING_SLOTS;
 	}
 
-	park(input) {
+	park (input) {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
 
-		if (this.minHeap.isEmpty()) 
+		if (this.minHeap.isEmpty())
 			throw new Error('Sorry, parking lot is full');
 
 		let carNumber = input.split(' ')[1];
@@ -48,24 +48,24 @@ class ParkingLot {
 
 		const car = new Car(carNumber, carColor);
 		const nearestParkingSlotIndex = this.minHeap.pop();
-		
+
 		this.parkingSpots[nearestParkingSlotIndex].setCar(car);
 		const coloredList = this.colorInfoMap.get(carColor);
 		if (coloredList === undefined) {
 			this.colorInfoMap.set(carColor, this.parkingColorNodes[nearestParkingSlotIndex]);
 		} else {
-			// apending current parking Node to head of the list 
+			// apending current parking Node to head of the list
 			const coloredListHead = this.colorInfoMap.get(carColor);
 			coloredListHead.prev = nearestParkingSlotIndex;
 			this.parkingColorNodes[nearestParkingSlotIndex].next = coloredListHead.index;
 			this.colorInfoMap.set(carColor, this.parkingColorNodes[nearestParkingSlotIndex]);
 		}
-		
+
 		this.carInfoMap.set(carNumber, this.parkingColorNodes[nearestParkingSlotIndex]);
 		return nearestParkingSlotIndex + 1;
 	}
 
-	leave(input) {
+	leave (input) {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
 
@@ -86,7 +86,7 @@ class ParkingLot {
 		} else {
 			this.parkingColorNodes[prevSameColorIndex].next = nextSameColorIndex;
 			if (nextSameColorIndex) {
-				this.parkingColorNodes[nextSameColorIndex].prev = prevSameColorIndex
+				this.parkingColorNodes[nextSameColorIndex].prev = prevSameColorIndex;
 			}
 		}
 
@@ -98,10 +98,10 @@ class ParkingLot {
 		return parkingIndex + 1;
 	}
 
-	status(input){
+	status (input) {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
-		
+
 		const arr = [];
 		for (let i = 0; i < this.MAX_PARKING_SLOTS; i++) {
 			const car = this.parkingSpots[i].getCar();
@@ -126,7 +126,7 @@ class ParkingLot {
 		return this.getParkingSpotDetailsByColor(carColor, 'car').join(', ');
 	}
 
-	getSlotsWithSameColor(input) {
+	getSlotsWithSameColor (input) {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
 
@@ -138,7 +138,7 @@ class ParkingLot {
 		return this.getParkingSpotDetailsByColor(carColor, 'slot').join(', ');
 	}
 
-	getSlotByCarNumber(input) {
+	getSlotByCarNumber (input) {
 		if (this.MAX_PARKING_SLOTS < 1)
 			throw new Error('Please, create a parking lot');
 
@@ -154,14 +154,14 @@ class ParkingLot {
 		return parkingColorNode.index + 1;
 	}
 
-	getParkingSpotDetailsByColor(carColor, input) {
+	getParkingSpotDetailsByColor (carColor, input) {
 		const coloredListHead = this.colorInfoMap.get(carColor);
 		if (coloredListHead === undefined)
 			throw new Error('Not found');
 
 		let i = coloredListHead.index;
 		const arr = [];
-		while(i!==null) {
+		while (i !== null) {
 			if (input === 'car') {
 
 				arr.push(this.parkingSpots[i].car.getCarRegistrationNumber());
@@ -173,6 +173,6 @@ class ParkingLot {
 		}
 		return arr;
 	}
-}	
+}
 
 module.exports = ParkingLot;

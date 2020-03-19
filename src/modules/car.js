@@ -1,22 +1,22 @@
 class Car {
-	constructor(regNumber, carColor) {
+	constructor (regNumber, carColor) {
 		const registrationNumber = regNumber;
 		const color = carColor;
-		this.getCarDetails = function() {
+		this.getCarDetails = function () {
 			return { color, registrationNumber };
-		}
+		};
 
-		this.getCarColor = function(){
+		this.getCarColor = function () {
 			return color;
-		}
+		};
 
-		this.getCarRegistrationNumber = function() {
+		this.getCarRegistrationNumber = function () {
 			return registrationNumber;
-		}
+		};
 	}
 
-	isCarEqual(car) {
-		if(car && this.getCarRegistrationNumber() === car.getCarRegistrationNumber()) {
+	isCarEqual (car) {
+		if (car && this.getCarRegistrationNumber() === car.getCarRegistrationNumber()) {
 			return true;
 		}
 

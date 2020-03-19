@@ -1,16 +1,16 @@
 class ParkingSpot {
-	constructor(position) {
+	constructor (position) {
 		this.car = null;
 		this.position = position;
-		this.isOccupied = false; 
+		this.isOccupied = false;
 	}
 
-	setCar(car){
+	setCar (car) {
 		this.car = car;
 		this.isOccupied = car ? true : false;
 	}
 
-	getCar(car) {
+	getCar (car) {
 		return this.car;
 	}
 }
