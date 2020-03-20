@@ -2,6 +2,7 @@ const DoublyNode = require('../utils/doublyLinkedListNode');
 const Car = require('../modules/car');
 const ParkingSpot = require('../modules/parkingSpot');
 const MinHeap = require('../utils/minHeap');
+const helper = require('../utils/helper');
 
 /**
  * @description a class for representing a parking lot
@@ -138,8 +139,8 @@ class ParkingLot {
 		for (let i = 0; i < this.MAX_PARKING_SLOTS; i++) {
 			const car = this.parkingSpots[i].getCar();
 			if (car) {
-				const color = car.getCarColor();
-				arr.push((i + 1) + '         ' + car.getCarRegistrationNumber() + '    ' + color.charAt(0).toUpperCase() + color.slice(1));
+				const s = helper.formatStatusOutPutString(i, car.getCarColor(), car.getCarRegistrationNumber());
+				arr.push(s);
 			}
 
 		}

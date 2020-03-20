@@ -103,7 +103,7 @@ function processUserCommands (input) {
 			try {
 				const parkingLotStatus = parkingLot.status();
 				if (parkingLotStatus.length > 0) {
-					console.log('Slot No.  Registration No. Color');
+					console.log('Slot No.  Registration No.  Color');
 					console.log(outputColor(parkingLotStatus.join('\n')));
 				}
 				else {
