@@ -15,7 +15,7 @@
 3) Slot numbers of all slots where a car of a particular colour is parked.
 
 ## Pre-requisites
-The project is written using **Nodejs**. Make sure node is installed on your computer.Also **NPM(node package manager)** is also needed for installing dependencies. You can install both from https://nodejs.org/en/download/
+The project is written using **Nodejs** with **OOPs** and **TDD**(Testing Driven Development) approach. Make sure node is installed on your computer. Also **NPM(node package manager)** is also needed for installing dependencies. You can install both from https://nodejs.org/en/download/
 
 ## Setup and Usage
 This project has two modes :-
@@ -34,7 +34,7 @@ This project has two modes :-
 	The format of the input file is similar to the  sample format ./data/input.txt file. 
 
 You can also run the **console application** directly. For that you have to build two binary files. A pre-requisite to install these binary is **node** and **npm** as mentioned earlier. The steps to create these binaries are -:
-* **npm install** -> This will install project dependencies
+* **npm install** -> This will install project dependencies.
 * **npm run setup** -> This will create a setup binary in the bin folder.
 * **npm run build** -> This will create a parking_lot binary in the bin folder.
 
@@ -66,14 +66,38 @@ In the **scripts** segment below it is explained how these binaries are made.
 
 10) **exit**: exit will quit the application.
 
-## Logic of Parking Lot Class
-* The parking lot class has a parkingSpot class object array of the maximum slot size which is taken as input while creating parking lot. 
+## OOPs Modules
+Following classes are used in the development of the project :-
 
-* It also has another array parkingColorNode of doublyLinkedListNode class object. This class instance represents a standalone doubly linked list node. In this array each node corresponds to a parking spot position given by its index in this array. 
+* **ParkingLot** -> Representation of the parking lot and is used to initialize the parking lot with maximum number of slots. It has a parkingSpot class object array and a doublyLinkedListNode array, both of maximum slot size. It also has two maps ColorInfoMap which stores the reference of the head of the doublylist of same color and carInfoMap which stores the reference of the doublyLinkedListNode where the car is parked.
 
-* It also has two maps, colorInfoMap and carInfoMap. ColorInfoMap stores cars of the same color in a doublyLinkedList where each node is parkingColorNode element corresponding to a parking slot position. CarInfoMap stores those individual nodes with key as car number. This second map provides ease in removing these nodes from doublyLinkedList and also provides parking slot info of a car in O(1).
+* **Car** -> Representation of the car. Stores car number and color.
 
-* It also uses a minHeap to store the available slot indexes. Every time a car leaves a slot, that slot is entered in the minHeap and everytime a car is parked the smallest slot is popped.
+* **ParkingSpot** -> Representation of a single parkingSpot. Stores a car instance and position of the spot itself. 
+
+* **Minheap** -> Stores the free slot positions with position index itself as the weight. 
+
+* **doublyLinkedListNode** -> Stores the parking position, the previous and next position of a car of the same color.
+
+**Parking Lot Class Logic**
+* **park**
+1) The nearest empty slot is popped from the minHeap. 
+
+2) The car is set on that position in the parkingSpot Object.
+
+3) The doublylinkedlist head is fetched from the colorInfoMap and then the node corresponding to the current parking spot is appended as head and set in colorInfoMap.
+	
+4) CarInfoMap stores this node with key as car number. This second map provides ease in removing these nodes from doublyLinkedList and also provides parking slot info of a car in O(1).
+
+
+* **Leave**
+1) The parkingSpot object is checked for occupancy at the position mentioned.
+
+2) The car number is fetched from the parkingSpot Object.
+
+3) The doublyLinkedListNode object at the corresponding position is fetched and it is removed from the list it belongs and colorInfoMap will be altered accordingly.
+
+4) The free spot now is inserted in the minHeap again.
 
 ## Time Complexities
 1) **create_parking_lot** -> O(n)
