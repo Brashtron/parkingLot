@@ -26,12 +26,12 @@ function runUnitTests () {
             return err;
         }
         console.log(stdout);
-        console.log('Unit test cases executed')
+        console.log('Unit test cases executed');
         return null;
     });
 }
 
-function executeTasks(){
+function executeTasks () {
     installDependencies(runUnitTests);
 }
 
